@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل اللاعبين - نادي الجبيل الرياضي</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a5276;
+            --secondary-color: #e74c3c;
+            --accent-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        /* الهيدر */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-container {
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-text {
+            font-weight: bold;
+            color: white;
+        }
+        
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+            margin: 0 5px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            right: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* المحتوى الرئيسي */
+        .main-content {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            bottom: -2px;
+            right: 0;
+            background-color: var(--secondary-color);
+        }
+        
+        /* تصميم النموذج */
+        .registration-form {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .form-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .form-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: white;
+            padding: 15px 20px;
+            border-bottom: 3px solid var(--accent-color);
+        }
+        
+        .form-body {
+            padding: 25px;
+        }
+        
+        .form-label {
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 8px;
+        }
+        
+        .form-control, .form-select {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px 15px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(26, 82, 118, 0.25);
+        }
+        
+        .form-text {
+            color: #6c757d;
+            font-size: 0.85rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 10px 30px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--dark-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn-lg {
+            padding: 12px 35px;
+            font-size: 1.1rem;
+        }
+        
+        /* رسائل التحقق */
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+        
+        .invalid-feedback {
+            display: none;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875em;
+            color: #dc3545;
+        }
+        
+        .is-invalid ~ .invalid-feedback {
+            display: block;
+        }
+        
+        .is-valid {
+            border-color: #198754 !important;
+        }
+        
+        /* الفوتر */
+        .footer {
+            background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer h5 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer h5::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            bottom: 0;
+            right: 0;
+            background-color: var(--accent-color);
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+            padding-right: 5px;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-left: 10px;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 30px;
+            text-align: center;
+            color: #ccc;
+        }
+        
+        /* تأثيرات إضافية */
+        .success-message {
+            display: none;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .form-body {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الهيدر -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <div class="logo-container">
+                        <img src="logo.jpg" alt="شعار نادي الجبيل الرياضي" width="50" height="50">
+                    </div>
+                    <span class="logo-text">نادي الجبيل الرياضي<br><small>فريق ألعاب القوى</small></span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-info-circle"></i> عن النادي</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-newspaper"></i> الأخبار</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-users"></i> الفريق</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="registration.html"><i class="fas fa-user-plus"></i> تسجيل لاعب</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-trophy"></i> البطولات</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-envelope"></i> اتصل بنا</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <section class="main-content">
+                    <h2 class="section-title text-center">تسجيل لاعب جديد</h2>
+                    <p class="text-center mb-4">يرجى تعبئة النموذج التالي بجميع البيانات المطلوبة للتسجيل في نادي الجبيل الرياضي - فريق ألعاب القوى</p>
+                    
+                    <div class="registration-form">
+                        <form id="playerRegistrationForm" novalidate>
+                            <!-- المعلومات الشخصية -->
+                            <div class="form-card">
+                                <div class="form-header">
+                                    <h4 class="mb-0"><i class="fas fa-user-circle me-2"></i>المعلومات الشخصية</h4>
+                                </div>
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="fullName" class="form-label">الاسم الكامل <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="fullName" required>
+                                            <div class="invalid-feedback">يرجى إدخال الاسم الكامل</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="idNumber" class="form-label">رقم الهوية الوطنية <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="idNumber" maxlength="10" required>
+                                            <div class="invalid-feedback">يرجى إدخال رقم هوية وطني صحيح (10 أرقام)</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="birthDate" class="form-label">تاريخ الميلاد <span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" id="birthDate" required>
+                                            <div class="invalid-feedback">يرجى إدخال تاريخ الميلاد</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="gender" class="form-label">الجنس <span class="text-danger">*</span></label>
+                                            <select class="form-select" id="gender" required>
+                                                <option value="" selected disabled>اختر الجنس</option>
+                                                <option value="male">ذكر</option>
+                                                <option value="female">أنثى</option>
+                                            </select>
+                                            <div class="invalid-feedback">يرجى اختيار الجنس</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="nationality" class="form-label">الجنسية <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="nationality" value="سعودي" required>
+                                            <div class="invalid-feedback">يرجى إدخال الجنسية</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="bloodType" class="form-label">فصيلة الدم</label>
+                                            <select class="form-select" id="bloodType">
+                                                <option value="" selected disabled>اختر فصيلة الدم</option>
+                                                <option value="A+">A+</option>
+                                                <option value="A-">A-</option>
+                                                <option value="B+">B+</option>
+                                                <option value="B-">B-</option>
+                                                <option value="O+">O+</option>
+                                                <option value="O-">O-</option>
+                                                <option value="AB+">AB+</option>
+                                                <option value="AB-">AB-</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- معلومات الاتصال -->
+                            <div class="form-card">
+                                <div class="form-header">
+                                    <h4 class="mb-0"><i class="fas fa-address-book me-2"></i>معلومات الاتصال</h4>
+                                </div>
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="email" class="form-label">البريد الإلكتروني <span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control" id="email" required>
+                                            <div class="invalid-feedback">يرجى إدخال بريد إلكتروني صحيح</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="phone" class="form-label">رقم الجوال <span class="text-danger">*</span></label>
+                                            <input type="tel" class="form-control" id="phone" required>
+                                            <div class="invalid-feedback">يرجى إدخال رقم جوال صحيح</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="emergencyContact" class="form-label">رقم التواصل في حالات الطوارئ <span class="text-danger">*</span></label>
+                                            <input type="tel" class="form-control" id="emergencyContact" required>
+                                            <div class="invalid-feedback">يرجى إدخال رقم اتصال للطوارئ</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="relationship" class="form-label">صلة القرابة <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="relationship" required>
+                                            <div class="invalid-feedback">يرجى إدخال صلة القرابة</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="address" class="form-label">العنوان <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="address" rows="3" required></textarea>
+                                        <div class="invalid-feedback">يرجى إدخال العنوان</div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="city" class="form-label">المدينة <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="city" required>
+                                            <div class="invalid-feedback">يرجى إدخال المدينة</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="postalCode" class="form-label">الرمز البريدي</label>
+                                            <input type="text" class="form-control" id="postalCode">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- المعلومات الرياضية -->
+                            <div class="form-card">
+                                <div class="form-header">
+                                    <h4 class="mb-0"><i class="fas fa-running me-2"></i>المعلومات الرياضية</h4>
+                                </div>
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="sportType" class="form-label">نوع الرياضة <span class="text-danger">*</span></label>
+                                            <select class="form-select" id="sportType" required>
+                                                <option value="" selected disabled>اختر نوع الرياضة</option>
+                                                <option value="running">الجري</option>
+                                                <option value="jumping">القفز</option>
+                                                <option value="throwing">الرمي</option>
+                                                <option value="combined">المتعددة</option>
+                                            </select>
+                                            <div class="invalid-feedback">يرجى اختيار نوع الرياضة</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="experience" class="form-label">المستوى / الخبرة <span class="text-danger">*</span></label>
+                                            <select class="form-select" id="experience" required>
+                                                <option value="" selected disabled>اختر مستوى الخبرة</option>
+                                                <option value="beginner">مبتدئ</option>
+                                                <option value="intermediate">متوسط</option>
+                                                <option value="advanced">متقدم</option>
+                                                <option value="professional">محترف</option>
+                                            </select>
+                                            <div class="invalid-feedback">يرجى اختيار مستوى الخبرة</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="previousClubs" class="form-label">الأندية السابقة (إن وجد)</label>
+                                        <textarea class="form-control" id="previousClubs" rows="2"></textarea>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="achievements" class="form-label">الإنجازات الرياضية (إن وجد)</label>
+                                        <textarea class="form-control" id="achievements" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- معلومات إضافية -->
+                            <div class="form-card">
+                                <div class="form-header">
+                                    <h4 class="mb-0"><i class="fas fa-info-circle me-2"></i>معلومات إضافية</h4>
+                                </div>
+                                <div class="form-body">
+                                    <div class="mb-3">
+                                        <label for="medicalHistory" class="form-label">التاريخ الطبي (أمراض، إصابات سابقة، حساسية)</label>
+                                        <textarea class="form-control" id="medicalHistory" rows="3"></textarea>
+                                        <div class="form-text">يرجى الإفصاح عن أي حالات طبية قد تؤثر على أدائك الرياضي</div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">المرفقات</label>
+                                        <div class="mb-2">
+                                            <input type="file" class="form-control" id="idCopy" accept=".pdf,.jpg,.jpeg,.png">
+                                            <div class="form-text">صورة من الهوية الوطنية</div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <input type="file" class="form-control" id="medicalReport" accept=".pdf,.jpg,.jpeg,.png">
+                                            <div class="form-text">تقرير طبي (اختياري)</div>
+                                        </div>
+                                        <div>
+                                            <input type="file" class="form-control" id="personalPhoto" accept=".jpg,.jpeg,.png">
+                                            <div class="form-text">صورة شخصية</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- الموافقات -->
+                            <div class="form-card">
+                                <div class="form-body">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                        <label class="form-check-label" for="agreeTerms">
+                                            أوافق على <a href="#" class="text-primary">شروط التسجيل</a> و <a href="#" class="text-primary">اللوائح الداخلية</a> للنادي
+                                        </label>
+                                        <div class="invalid-feedback">يجب الموافقة على الشروط والأحكام</div>
+                                    </div>
+                                    
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="agreeData" required>
+                                        <label class="form-check-label" for="agreeData">
+                                            أوافق على جمع وتخزين ومعالجة بياناتي الشخصية وفق <a href="#" class="text-primary">سياسة الخصوصية</a>
+                                        </label>
+                                        <div class="invalid-feedback">يجب الموافقة على سياسة الخصوصية</div>
+                                    </div>
+                                    
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="fas fa-paper-plane me-2"></i>تسجيل اللاعب
+                                        </button>
+                                        <button type="reset" class="btn btn-outline-secondary btn-lg">
+                                            <i class="fas fa-redo me-2"></i>إعادة تعيين
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <!-- رسالة النجاح -->
+                        <div id="successMessage" class="success-message text-center">
+                            <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                            <h4 class="text-success">تم تسجيل بياناتك بنجاح!</h4>
+                            <p class="mb-0">سيتم مراجعة طلبك والاتصال بك في أقرب وقت ممكن.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- الفوتر -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>عن النادي</h5>
+                    <p>نادي الجبيل الرياضي - فريق ألعاب القوى هو أحد أبرز الفرق الرياضية في المنطقة الشرقية من المملكة العربية السعودية، ويهدف إلى اكتشاف المواهب الرياضية وتطويرها.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>روابط سريعة</h5>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="#">عن النادي</a></li>
+                        <li><a href="#">الفريق</a></li>
+                        <li><a href="registration.html">تسجيل لاعب</a></li>
+                        <li><a href="#">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>اتصل بنا</h5>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> الجبيل، المنطقة الشرقية، السعودية</li>
+                        <li><i class="fas fa-phone"></i> +966 13 123 4567</li>
+                        <li><i class="fas fa-envelope"></i> info@jubailclub.com</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>النشرة الإخبارية</h5>
+                    <p>اشترك في نشرتنا الإخبارية لتصلك آخر أخبار النادي.</p>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="البريد الإلكتروني">
+                            <button class="btn btn-primary" type="submit">اشتراك</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>جميع الحقوق محفوظة &copy; 2023 نادي الجبيل الرياضي - فريق ألعاب القوى</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // التحقق من صحة النموذج
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('playerRegistrationForm');
+            const successMessage = document.getElementById('successMessage');
+            
+            // التحقق من رقم الهوية السعودية
+            function validateSaudiId(id) {
+                // يجب أن يتكون من 10 أرقام
+                if (!/^\d{10}$/.test(id)) return false;
+                
+                // التحقق من صحة رقم الهوية باستخدام خوارزمية التحقق
+                let sum = 0;
+                for (let i = 0; i < 10; i++) {
+                    if (i % 2 === 0) {
+                        let doubled = parseInt(id.charAt(i)) * 2;
+                        sum += doubled > 9 ? doubled - 9 : doubled;
+                    } else {
+                        sum += parseInt(id.charAt(i));
+                    }
+                }
+                return sum % 10 === 0;
+            }
+            
+            // التحقق من البريد الإلكتروني
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            // التحقق من رقم الجوال السعودي
+            function validatePhone(phone) {
+                // يقبل الأرقام السعودية التي تبدأ بـ 05 أو 5 أو +9665
+                const re = /^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/;
+                return re.test(phone.replace(/\s/g, ''));
+            }
+            
+            // إضافة مستمعات الأحداث للحقول
+            const idNumberInput = document.getElementById('idNumber');
+            idNumberInput.addEventListener('input', function() {
+                if (this.value.length === 10) {
+                    if (validateSaudiId(this.value)) {
+                        this.classList.remove('is-invalid');
+                        this.classList.add('is-valid');
+                    } else {
+                        this.classList.remove('is-valid');
+                        this.classList.add('is-invalid');
+                    }
+                } else {
+                    this.classList.remove('is-valid', 'is-invalid');
+                }
+            });
+            
+            const emailInput = document.getElementById('email');
+            emailInput.addEventListener('blur', function() {
+                if (this.value && !validateEmail(this.value)) {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                } else if (this.value && validateEmail(this.value)) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                }
+            });
+            
+            const phoneInput = document.getElementById('phone');
+            phoneInput.addEventListener('blur', function() {
+                if (this.value && !validatePhone(this.value)) {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                } else if (this.value && validatePhone(this.value)) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                }
+            });
+            
+            const emergencyContactInput = document.getElementById('emergencyContact');
+            emergencyContactInput.addEventListener('blur', function() {
+                if (this.value && !validatePhone(this.value)) {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                } else if (this.value && validatePhone(this.value)) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                }
+            });
+            
+            // التحقق من النموذج عند الإرسال
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                
+                let isValid = true;
+                
+                // التحقق من الحقول الإلزامية
+                const requiredFields = form.querySelectorAll('[required]');
+                requiredFields.forEach(field => {
+                    if (!field.value) {
+                        field.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        field.classList.remove('is-invalid');
+                        
+                        // التحقق من صحة البيانات الخاصة
+                        if (field.id === 'idNumber' && !validateSaudiId(field.value)) {
+                            field.classList.add('is-invalid');
+                            isValid = false;
+                        } else if (field.id === 'email' && !validateEmail(field.value)) {
+                            field.classList.add('is-invalid');
+                            isValid = false;
+                        } else if ((field.id === 'phone' || field.id === 'emergencyContact') && !validatePhone(field.value)) {
+                            field.classList.add('is-invalid');
+                            isValid = false;
+                        } else {
+                            field.classList.add('is-valid');
+                        }
+                    }
+                });
+                
+                if (isValid) {
+                    // إخفاء النموذج وإظهار رسالة النجاح
+                    form.style.display = 'none';
+                    successMessage.style.display = 'block';
+                    
+                    // هنا يمكن إضافة كود لإرسال البيانات إلى الخادم
+                    console.log('تم إرسال النموذج بنجاح!');
+                }
+            });
+            
+            // إعادة تعيين النموذج
+            form.addEventListener('reset', function() {
+                // إزالة جميع فئات التحقق
+                const formControls = form.querySelectorAll('.form-control, .form-select');
+                formControls.forEach(control => {
+                    control.classList.remove('is-valid', 'is-invalid');
+                });
+                
+                // إعادة إظهار النموذج إذا كان مخفيًا
+                form.style.display = 'block';
+                successMessage.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
